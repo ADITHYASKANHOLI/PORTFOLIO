@@ -12,7 +12,7 @@ export const INITIAL_SITE_CONTENT: SiteContentMap = {
   portrait: {
     heading: "Hey, I’m Adithya.",
     caption: "An engineering student, developer, and lifelong learner.",
-    image_url: "",
+    image_url: "/portrait.jpg",
     note: "B.Tech in Electrical and Electronics Engineering at College of Engineering Vadakara (CEV). Focused on where software systems meet tangible hardware.",
   },
   about: {

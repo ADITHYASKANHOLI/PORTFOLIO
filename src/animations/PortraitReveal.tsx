@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap, prefersReducedMotion } from './gsapSetup';
 import { PortraitContent } from '@/types';
 import { Camera, Sparkles } from 'lucide-react';
@@ -14,23 +14,53 @@ export const PortraitReveal: React.FC<PortraitRevealProps> = ({ content }) => {
   const imageInnerRef = useRef<HTMLDivElement>(null);
   const textColRef = useRef<HTMLDivElement>(null);
 
+  // Fallback to bundled portrait photograph if content.image_url is unset or empty
+  const defaultPortrait = '/portrait.jpg';
+  const rawUrl = content?.image_url?.trim();
+  const initialUrl = rawUrl ? rawUrl : defaultPortrait;
+
+  const [imageSrc, setImageSrc] = useState<string>(initialUrl);
+  const [imageFailed, setImageFailed] = useState<boolean>(false);
+
+  useEffect(() => {
+    const nextUrl = content?.image_url?.trim() ? content.image_url.trim() : defaultPortrait;
+    setImageSrc(nextUrl);
+    setImageFailed(false);
+  }, [content?.image_url]);
+
   useEffect(() => {
     if (prefersReducedMotion()) return;
 
     const ctx = gsap.context(() => {
-      // Image scale & parallax on scroll
+      // Subtle editorial scale & parallax scrub on scroll
       gsap.fromTo(
         imageInnerRef.current,
-        { scale: 1.15, y: -20 },
+        { scale: 1.08, y: -16 },
         {
           scale: 1,
-          y: 20,
+          y: 16,
           ease: 'none',
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top bottom',
             end: 'bottom top',
-            scrub: 1,
+            scrub: 1.2,
+          },
+        }
+      );
+
+      // Smooth entrance reveal for the portrait frame container
+      gsap.fromTo(
+        imageWrapperRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
           },
         }
       );
@@ -66,55 +96,81 @@ export const PortraitReveal: React.FC<PortraitRevealProps> = ({ content }) => {
           
           {/* Portrait Composition Column (7 cols) */}
           <div className="lg:col-span-7">
-            <div
-              ref={imageWrapperRef}
-              className="relative aspect-[4/5] sm:aspect-[16/11] lg:aspect-[4/5] w-full max-w-xl mx-auto lg:mx-0 overflow-hidden rounded-sm border border-[#292D33] bg-[#12151A] shadow-2xl"
-            >
+            <div className="relative w-full max-w-lg mx-auto lg:mx-0">
+              {/* Editorial Frame with architectural crosshairs */}
               <div
-                ref={imageInnerRef}
-                className="w-full h-full relative"
+                ref={imageWrapperRef}
+                className="relative aspect-[3/4] sm:aspect-[4/5] lg:aspect-[3/4] w-full overflow-hidden rounded-sm border border-[#292D33] bg-[#12151A] shadow-2xl"
               >
-                {content.image_url ? (
-                  <img
-                    src={content.image_url}
-                    alt="Adithya S. Kanholi Portrait"
-                    className="w-full h-full object-cover object-center filter contrast-[1.05] hover:contrast-100 transition-all duration-700"
-                    loading="lazy"
-                  />
-                ) : (
-                  /* Deliberate Editorial Placeholder */
-                  <div className="w-full h-full flex flex-col items-center justify-center p-8 bg-[#12151A] text-[#9299A3] relative">
-                    {/* Architectural coordinate lines */}
-                    <div className="absolute inset-x-8 top-8 flex justify-between font-mono text-[10px] text-[#9299A3]/50">
-                      <span>FIG. 01 — PORTRAIT COMPOSITION</span>
-                      <span>11.6053° N, 75.5908° E</span>
-                    </div>
+                <div
+                  ref={imageInnerRef}
+                  className="w-full h-full relative"
+                >
+                  {!imageFailed ? (
+                    <img
+                      src={imageSrc}
+                      alt="Adithya S. Kanholi - Personal Archive Portrait"
+                      width={576}
+                      height={1024}
+                      loading="eager"
+                      decoding="async"
+                      onError={() => {
+                        if (imageSrc !== defaultPortrait) {
+                          setImageSrc(defaultPortrait);
+                        } else {
+                          setImageFailed(true);
+                        }
+                      }}
+                      className="w-full h-full object-cover object-[center_35%] filter contrast-[1.03] brightness-[0.98] hover:contrast-100 hover:brightness-100 transition-all duration-700"
+                    />
+                  ) : (
+                    /* Deliberate Editorial Fallback */
+                    <div className="w-full h-full flex flex-col items-center justify-center p-8 bg-[#12151A] text-[#9299A3] relative">
+                      <div className="absolute inset-x-8 top-8 flex justify-between font-mono text-[10px] text-[#9299A3]/50">
+                        <span>PLATE NO. 01 — PERSONAL ARCHIVE</span>
+                        <span>11.6053° N, 75.5908° E</span>
+                      </div>
 
-                    <div className="w-20 h-20 rounded-full border border-white/30 flex items-center justify-center mb-6 bg-[#08090B]">
-                      <Camera className="w-8 h-8 text-white" />
-                    </div>
+                      <div className="w-20 h-20 rounded-full border border-white/30 flex items-center justify-center mb-6 bg-[#08090B]">
+                        <Camera className="w-8 h-8 text-white" />
+                      </div>
 
-                    <p className="font-display text-xl md:text-2xl font-semibold text-white text-center mb-2">
-                      Adithya S. Kanholi
-                    </p>
-                    <p className="font-mono text-xs uppercase tracking-technical text-[#D7DCE2] mb-4">
-                      Portrait Placement
-                    </p>
-                    <p className="font-sans text-xs text-[#9299A3] max-w-xs text-center leading-relaxed">
-                      Reserved space for Adithya’s actual portrait photograph.
-                    </p>
+                      <p className="font-display text-xl md:text-2xl font-semibold text-white text-center mb-2">
+                        Adithya S. Kanholi
+                      </p>
+                      <p className="font-mono text-xs uppercase tracking-technical text-[#D7DCE2] mb-4">
+                        Visual Archive
+                      </p>
+                      <p className="font-sans text-xs text-[#9299A3] max-w-xs text-center leading-relaxed">
+                        College of Engineering Vadakara • Electrical & Electronics
+                      </p>
 
-                    <div className="absolute inset-x-8 bottom-8 flex justify-between font-mono text-[10px] text-[#9299A3]/50">
-                      <span>CEV • EEE</span>
-                      <span>ASPECT RATIO 4:5</span>
+                      <div className="absolute inset-x-8 bottom-8 flex justify-between font-mono text-[10px] text-[#9299A3]/50">
+                        <span>CEV • EEE</span>
+                        <span>ASPECT RATIO 3:4</span>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+
+                  {/* Subtle vignette overlay on image */}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#08090B]/60 via-transparent to-black/10" />
+                </div>
+
+                {/* Minimal architectural corner registration brackets */}
+                <div className="pointer-events-none absolute top-3 left-3 w-4 h-4 border-t border-l border-white/60" />
+                <div className="pointer-events-none absolute top-3 right-3 w-4 h-4 border-t border-r border-white/60" />
+                <div className="pointer-events-none absolute bottom-3 left-3 w-4 h-4 border-b border-l border-white/60" />
+                <div className="pointer-events-none absolute bottom-3 right-3 w-4 h-4 border-b border-r border-white/60" />
               </div>
 
-              {/* Minimal corner brackets */}
-              <div className="pointer-events-none absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-white/60" />
-              <div className="pointer-events-none absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-white/60" />
+              {/* Archival metadata caption strip below frame */}
+              <div className="mt-3.5 px-1 flex items-center justify-between font-mono text-[11px] tracking-wider text-[#9299A3]/70 uppercase">
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/90 inline-block animate-pulse" />
+                  <span>Archival Plate 01 — Field Record</span>
+                </span>
+                <span className="text-[#9299A3]/50 hidden sm:inline">11.6053° N, 75.5908° E</span>
+              </div>
             </div>
           </div>
 
@@ -126,11 +182,11 @@ export const PortraitReveal: React.FC<PortraitRevealProps> = ({ content }) => {
             </div>
 
             <h2 className="relative w-full max-w-xl">
-              <span className="sr-only">{content.heading}</span>
-              <div className="w-full h-14 sm:h-20">
+              <span className="sr-only">{content?.heading || "Hey, I’m Adithya."}</span>
+              <div className="w-full h-16 sm:h-20">
                 <TechText
-                  text={content.heading || "Electrical Engineering & Systems"}
-                  fontSize={46}
+                  text={content?.heading || "Hey, I’m Adithya."}
+                  fontSize={44}
                   fontWeight={700}
                   fontFamily='"Space Grotesk", sans-serif'
                   color="#FFFFFF"
@@ -145,13 +201,13 @@ export const PortraitReveal: React.FC<PortraitRevealProps> = ({ content }) => {
             </h2>
 
             <p className="font-sans text-xl md:text-2xl text-[#D7DCE2] font-light leading-relaxed">
-              {content.caption}
+              {content?.caption || "An engineering student, developer, and lifelong learner."}
             </p>
 
             <div className="w-12 h-0.5 bg-white/40 my-4" />
 
-            <p className="font-sans text-base text-[#9299A3] leading-editorial">
-              {content.note}
+            <p className="font-sans text-base text-[#9299A3] leading-relaxed">
+              {content?.note || "B.Tech in Electrical and Electronics Engineering at College of Engineering Vadakara (CEV). Focused on where software systems meet tangible hardware."}
             </p>
 
             <div className="pt-4 flex items-center gap-6 font-mono text-xs text-[#9299A3]">
