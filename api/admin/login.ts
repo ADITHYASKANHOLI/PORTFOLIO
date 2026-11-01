@@ -6,7 +6,7 @@ import {
   verifyKey,
   createSessionToken,
   buildSetCookieHeader,
-} from '../_lib/auth';
+} from '../_lib/auth.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
@@ -31,7 +31,13 @@ export default async function handler(req: any, res: any) {
 
   // Parse body
   let body = req.body;
-  if (typeof body === 'string') {
+  if (Buffer.isBuffer(body)) {
+    try {
+      body = JSON.parse(body.toString('utf8'));
+    } catch {
+      return res.status(400).json({ error: 'Invalid JSON payload' });
+    }
+  } else if (typeof body === 'string') {
     try {
       body = JSON.parse(body);
     } catch {

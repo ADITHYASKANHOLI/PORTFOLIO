@@ -3,7 +3,7 @@ import {
   COOKIE_NAME,
   getCookie,
   verifySessionToken,
-} from '../_lib/auth';
+} from '../_lib/auth.js';
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'GET' && req.method !== 'POST') {

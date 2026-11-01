@@ -11,7 +11,7 @@ import {
   getCookie,
   verifySessionToken,
   buildClearCookieHeader,
-} from '../../api/_lib/auth';
+} from '../../api/_lib/auth.js';
 
 /**
  * Connect-compatible middleware for Vite dev and preview servers.
