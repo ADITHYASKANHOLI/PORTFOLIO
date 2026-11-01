@@ -67,3 +67,13 @@
   scrollbar-width: none;
 }
 
+/* Ensure animated characters are immediately visible and crisp under reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-char {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+

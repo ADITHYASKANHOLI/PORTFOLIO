@@ -2,17 +2,26 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap, prefersReducedMotion } from './gsapSetup';
 import { PortraitContent } from '@/types';
 import { Camera, Sparkles } from 'lucide-react';
-import MeshLettering from '@/components/ui/mesh-lettering';
 
 interface PortraitRevealProps {
   content: PortraitContent;
 }
+
+const HEADING_WORDS = [
+  { text: 'Hey,', accent: false },
+  { text: 'I', accent: false },
+  { text: 'am', accent: false },
+  { text: 'Adithya', accent: true },
+];
 
 export const PortraitReveal: React.FC<PortraitRevealProps> = ({ content }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageInnerRef = useRef<HTMLDivElement>(null);
   const textColRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const badgeRef = useRef<HTMLDivElement>(null);
+  const bodyContentRef = useRef<HTMLDivElement>(null);
 
   // Fallback to bundled portrait photograph if content.image_url is unset or empty
   const defaultPortrait = '/portrait.jpg';
@@ -33,53 +42,92 @@ export const PortraitReveal: React.FC<PortraitRevealProps> = ({ content }) => {
 
     const ctx = gsap.context(() => {
       // Subtle editorial scale & parallax scrub on scroll
-      gsap.fromTo(
-        imageInnerRef.current,
-        { scale: 1.08, y: -16 },
-        {
-          scale: 1,
-          y: 16,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.2,
-          },
-        }
-      );
+      if (imageInnerRef.current) {
+        gsap.fromTo(
+          imageInnerRef.current,
+          { scale: 1.08, y: -16 },
+          {
+            scale: 1,
+            y: 16,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 1.2,
+            },
+          }
+        );
+      }
 
       // Smooth entrance reveal for the portrait frame container
-      gsap.fromTo(
-        imageWrapperRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-          },
-        }
-      );
+      if (imageWrapperRef.current) {
+        gsap.fromTo(
+          imageWrapperRef.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 80%',
+            },
+          }
+        );
+      }
 
-      // Text reveal
-      gsap.fromTo(
-        textColRef.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 75%',
+      // Orchestrated reveal for the text column
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none none',
+        },
+      });
+
+      if (badgeRef.current) {
+        tl.fromTo(
+          badgeRef.current,
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+          0
+        );
+      }
+
+      const letters = headingRef.current?.querySelectorAll<HTMLElement>('.reveal-char');
+      if (letters && letters.length > 0) {
+        tl.fromTo(
+          letters,
+          {
+            opacity: 0,
+            y: 18,
+            filter: 'blur(8px)',
           },
-        }
-      );
+          {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 0.75,
+            stagger: 0.025,
+            ease: 'power3.out',
+            onComplete: () => {
+              gsap.set(letters, { clearProps: 'all' });
+            },
+          },
+          0.1
+        );
+      }
+
+      if (bodyContentRef.current) {
+        tl.fromTo(
+          bodyContentRef.current,
+          { opacity: 0, y: 25 },
+          { opacity: 1, y: 0, duration: 0.85, ease: 'power2.out' },
+          0.35
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -176,64 +224,59 @@ export const PortraitReveal: React.FC<PortraitRevealProps> = ({ content }) => {
 
           {/* Editorial Text Column (5 cols) */}
           <div ref={textColRef} className="lg:col-span-5 space-y-6">
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#12151A] border border-[#292D33] font-mono text-xs text-[#D7DCE2]">
+            <div
+              ref={badgeRef}
+              className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#12151A] border border-[#292D33] font-mono text-xs text-[#D7DCE2]"
+            >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Personal Archive</span>
             </div>
 
-            <h2 className="relative w-full max-w-xl">
-              <span className="sr-only">Hey, I am Adithya</span>
-              <div className="w-full h-36 sm:h-44 lg:h-48 relative -ml-1">
-                <MeshLettering
-                  text="Hey, I am Adithya"
-                  fontFamily='"Space Grotesk", sans-serif'
-                  fontWeight={800}
-                  fontSize={76}
-                  lineHeight={1.05}
-                  letterSpacing={-0.02}
-                  align="left"
-                  colors={['#C87A54', '#F5F2EB']}
-                  sheen={1.2}
-                  gloss={0.65}
-                  iridescence={0.45}
-                  wind={0.75}
-                  windAngle={12}
-                  turbulence={0.35}
-                  flow={0.9}
-                  softness={0.65}
-                  drag={0.5}
-                  hold={0.5}
-                  lightAngle={-35}
-                  interactive={true}
-                  gustStrength={1.2}
-                  gustRadius={1.3}
-                  clickGust={true}
-                  intro={true}
-                  introDuration={1.8}
-                  className="w-full h-full min-h-[140px] sm:min-h-[160px]"
-                />
-              </div>
+            <h2
+              ref={headingRef}
+              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] font-bold tracking-tight leading-[1.08] text-[#F5F2EB] max-w-xl"
+              aria-label="Hey, I am Adithya"
+            >
+              {HEADING_WORDS.map((wordObj, wIdx) => (
+                <span
+                  key={wIdx}
+                  className={`inline-block whitespace-nowrap mr-[0.28em] last:mr-0 ${
+                    wordObj.accent ? 'text-[#E08F69]' : 'text-[#F5F2EB]'
+                  }`}
+                >
+                  {wordObj.text.split('').map((char, cIdx) => (
+                    <span
+                      key={cIdx}
+                      className="reveal-char inline-block will-change-[transform,opacity,filter]"
+                    >
+                      {char}
+                    </span>
+                  ))}
+                </span>
+              ))}
             </h2>
 
-            <p className="font-sans text-xl md:text-2xl text-[#D7DCE2] font-light leading-relaxed">
-              {content?.caption || "An engineering student, developer, and lifelong learner."}
-            </p>
+            <div ref={bodyContentRef} className="space-y-6">
+              <p className="font-sans text-xl md:text-2xl text-[#D7DCE2] font-light leading-relaxed">
+                {content?.caption || "An engineering student, developer, and lifelong learner."}
+              </p>
 
-            <div className="w-12 h-0.5 bg-white/40 my-4" />
+              <div className="w-12 h-0.5 bg-white/40 my-4" />
 
-            <p className="font-sans text-base text-[#9299A3] leading-relaxed">
-              {content?.note || "B.Tech in Electrical and Electronics Engineering at College of Engineering Vadakara (CEV). Focused on where software systems meet tangible hardware."}
-            </p>
+              <p className="font-sans text-base text-[#9299A3] leading-relaxed">
+                {content?.note || "B.Tech in Electrical and Electronics Engineering at College of Engineering Vadakara (CEV). Focused on where software systems meet tangible hardware."}
+              </p>
 
-            <div className="pt-4 flex items-center gap-6 font-mono text-xs text-[#9299A3]">
-              <div>
-                <span className="text-white block font-semibold text-sm">College</span>
-                <span>CE Vadakara</span>
-              </div>
-              <div className="w-px h-8 bg-[#292D33]" />
-              <div>
-                <span className="text-white block font-semibold text-sm">Discipline</span>
-                <span>Electrical & Electronics</span>
+              <div className="pt-4 flex items-center gap-6 font-mono text-xs text-[#9299A3]">
+                <div>
+                  <span className="text-white block font-semibold text-sm">College</span>
+                  <span>CE Vadakara</span>
+                </div>
+                <div className="w-px h-8 bg-[#292D33]" />
+                <div>
+                  <span className="text-white block font-semibold text-sm">Discipline</span>
+                  <span>Electrical & Electronics</span>
+                </div>
               </div>
             </div>
           </div>
