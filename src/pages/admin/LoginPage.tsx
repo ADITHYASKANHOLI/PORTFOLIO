@@ -78,14 +78,14 @@ export const LoginPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Server Misconfiguration Notice (if ADMIN_KEY is not configured on the server) */}
+        {/* Server Misconfiguration Notice (if access key is not configured on the server) */}
         {serverConfigured === false && (
           <div className="p-3.5 rounded-xl bg-amber-950/40 border border-amber-500/40 flex items-start gap-3 text-amber-300 text-xs font-mono">
             <Lock className="w-4 h-4 shrink-0 mt-0.5 text-amber-400" />
             <div className="space-y-1">
-              <p className="font-semibold">ADMIN_KEY not configured</p>
+              <p className="font-semibold">Server Configuration Required</p>
               <p className="text-[11px] font-sans text-amber-200/80 leading-normal">
-                The server environment is missing the <code className="text-white font-mono bg-amber-900/60 px-1 py-0.5 rounded">ADMIN_KEY</code> variable. Please configure it in your Vercel Project Settings &rarr; Environment Variables.
+                The server environment is missing the required access key configuration. Please configure it in your Vercel Project Settings &rarr; Environment Variables.
               </p>
             </div>
           </div>
