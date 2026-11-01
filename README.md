@@ -30,6 +30,7 @@ This repository powers Adithya's personal website and engineering journal. The p
 - **React Bits Accordion Gallery**: Multi-panel expanding hardware showcase ("Beyond the Screen") detailing ESP32 robotics, sensor telemetry, and embedded integration.
 - **React Bits MorphSlider**: Synchronized typographic and image morphing carousel documenting FOLE community initiatives, hardware workshops, and pedagogical sessions.
 - **Rotating CircularText Control**: Concentric back-to-top floating glass button surrounded by an animated SVG circular typography ring.
+- **React Bits TechText Interactive Typography**: Interactive typographic canvas rendering with dynamic lens magnification, technical typography annotations, springs, and cursor impulses across hero and section headings.
 - **Restricted Administrative CMS (`/admin`)**: Fully secured editorial dashboard guarded by Supabase Auth and database-enforced `admin_users` table checks.
 - **Public Navigation Seclusion**: Public desktop, mobile, drawer, and footer navigation bars have no public-facing admin buttons or login links, preserving a visitor-focused experience while keeping `/admin` accessible to authorized personnel.
 - **Resilient Offline / Demo Mode**: The application is architected to run gracefully even when Supabase credentials are not provided, defaulting to structured seed data so visitors and automated auditors experience zero broken UI.
