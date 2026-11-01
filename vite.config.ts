@@ -51,6 +51,7 @@ export default defineConfig({
           'vendor-motion': ['framer-motion', 'gsap', 'lenis'],
           'vendor-icons': ['lucide-react'],
           'vendor-supabase': ['@supabase/supabase-js'],
+          'vendor-three': ['three'],
         },
       },
     },

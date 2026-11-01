@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap, prefersReducedMotion } from './gsapSetup';
 import { PortraitContent } from '@/types';
 import { Camera, Sparkles } from 'lucide-react';
-import TechText from '@/components/TechText';
+import MeshLettering from '@/components/ui/mesh-lettering';
 
 interface PortraitRevealProps {
   content: PortraitContent;
@@ -182,20 +182,34 @@ export const PortraitReveal: React.FC<PortraitRevealProps> = ({ content }) => {
             </div>
 
             <h2 className="relative w-full max-w-xl">
-              <span className="sr-only">{content?.heading || "Hey, I’m Adithya."}</span>
-              <div className="w-full h-16 sm:h-20">
-                <TechText
-                  text={content?.heading || "Hey, I’m Adithya."}
-                  fontSize={44}
-                  fontWeight={700}
+              <span className="sr-only">Hey, I am Adithya</span>
+              <div className="w-full h-36 sm:h-44 lg:h-48 relative -ml-1">
+                <MeshLettering
+                  text="Hey, I am Adithya"
                   fontFamily='"Space Grotesk", sans-serif'
-                  color="#FFFFFF"
-                  accentColor="#D7DCE2"
-                  align="left"
-                  reach={120}
-                  labels={false}
-                  clickKick={true}
-                  className="w-full h-full"
+                  fontWeight={800}
+                  fontSize={76}
+                  lineHeight={1.05}
+                  letterSpacing={-0.02}
+                  colors={['#C87A54', '#F5F2EB']}
+                  sheen={1.2}
+                  gloss={0.65}
+                  iridescence={0.45}
+                  wind={0.75}
+                  windAngle={12}
+                  turbulence={0.35}
+                  flow={0.9}
+                  softness={0.65}
+                  drag={0.5}
+                  hold={0.5}
+                  lightAngle={-35}
+                  interactive={true}
+                  gustStrength={1.2}
+                  gustRadius={1.3}
+                  clickGust={true}
+                  intro={true}
+                  introDuration={1.8}
+                  className="w-full h-full min-h-[140px] sm:min-h-[160px]"
                 />
               </div>
             </h2>

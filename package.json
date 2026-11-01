@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.48.1",
+    "@types/three": "^0.187.0",
     "@zakisheriff/liquid-glass": "^0.3.13",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.7",
@@ -24,7 +25,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.2.0",
-    "tailwind-merge": "^3.0.1"
+    "tailwind-merge": "^3.0.1",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@types/node": "^22.13.4",
