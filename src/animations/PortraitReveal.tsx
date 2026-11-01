@@ -191,6 +191,7 @@ export const PortraitReveal: React.FC<PortraitRevealProps> = ({ content }) => {
                   fontSize={76}
                   lineHeight={1.05}
                   letterSpacing={-0.02}
+                  align="left"
                   colors={['#C87A54', '#F5F2EB']}
                   sheen={1.2}
                   gloss={0.65}

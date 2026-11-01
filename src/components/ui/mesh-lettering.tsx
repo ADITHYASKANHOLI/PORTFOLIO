@@ -30,6 +30,7 @@ export interface MeshLetteringProps {
   lightAngle?: number;
   lightDrift?: number;
   interactive?: boolean;
+  align?: 'left' | 'center' | 'right';
   gustStrength?: number;
   gustRadius?: number;
   clickGust?: boolean;
@@ -213,6 +214,7 @@ export const MeshLettering = forwardRef<MeshLetteringHandle, MeshLetteringProps>
       lightAngle = -35,
       lightDrift = 1,
       interactive = true,
+      align = 'left',
       gustStrength = 1,
       gustRadius = 1.2,
       clickGust = true,
@@ -263,6 +265,7 @@ export const MeshLettering = forwardRef<MeshLetteringHandle, MeshLetteringProps>
       lightAngle,
       lightDrift,
       interactive,
+      align,
       gustStrength,
       gustRadius,
       clickGust,
@@ -295,6 +298,7 @@ export const MeshLettering = forwardRef<MeshLetteringHandle, MeshLetteringProps>
         lightAngle,
         lightDrift,
         interactive,
+        align,
         gustStrength,
         gustRadius,
         clickGust,
@@ -684,6 +688,16 @@ export const MeshLettering = forwardRef<MeshLetteringHandle, MeshLetteringProps>
           geometry = newGeo;
           mesh.geometry = newGeo;
 
+          const alignMode = cfg.align || 'left';
+          const textW = layoutBounds.x1 - layoutBounds.x0;
+          if (alignMode === 'left') {
+            mesh.position.x = Math.min(0, -(viewportWidth - textW) / 2);
+          } else if (alignMode === 'right') {
+            mesh.position.x = Math.max(0, (viewportWidth - textW) / 2);
+          } else {
+            mesh.position.x = 0;
+          }
+
           simulationTime = 0;
           physicsAccumulator = 0;
           hasSettled = false;
@@ -905,15 +919,18 @@ export const MeshLettering = forwardRef<MeshLetteringHandle, MeshLetteringProps>
           const normDirX = dirLen > 0 ? dirX / dirLen : 0;
           const normDirY = dirLen > 0 ? dirY / dirLen : 0;
 
-          const colMin = Math.max(0, Math.floor((originX - radius - rest[0]) / cloth.spacing));
-          const colMax = Math.min(cols - 1, Math.ceil((originX + radius - rest[0]) / cloth.spacing));
-          const rowMin = Math.max(0, Math.floor((rest[1] - (originY + radius)) / cloth.spacing));
-          const rowMax = Math.min(rows - 1, Math.ceil((rest[1] - (originY - radius)) / cloth.spacing));
+          const localX = originX - mesh.position.x;
+          const localY = originY - mesh.position.y;
+
+          const colMin = Math.max(0, Math.floor((localX - radius - rest[0]) / cloth.spacing));
+          const colMax = Math.min(cols - 1, Math.ceil((localX + radius - rest[0]) / cloth.spacing));
+          const rowMin = Math.max(0, Math.floor((rest[1] - (localY + radius)) / cloth.spacing));
+          const rowMax = Math.min(rows - 1, Math.ceil((rest[1] - (localY - radius)) / cloth.spacing));
 
           for (let r = rowMin; r <= rowMax; r++) {
             for (let c = colMin; c <= colMax; c++) {
               const idx = r * cols + c;
-              const dist = Math.hypot(position[3 * idx] - originX, position[3 * idx + 1] - originY);
+              const dist = Math.hypot(position[3 * idx] - localX, position[3 * idx + 1] - localY);
               if (dist > radius) continue;
 
               const falloff = 1 - dist / radius;
@@ -1061,6 +1078,16 @@ export const MeshLettering = forwardRef<MeshLetteringHandle, MeshLetteringProps>
           camera.far = 4 * camera.position.z;
           camera.lookAt(0, 0, 0);
           camera.updateProjectionMatrix();
+
+          const alignMode = propsRef.current.align || 'left';
+          const textW = layoutBounds.x1 - layoutBounds.x0;
+          if (alignMode === 'left') {
+            mesh.position.x = Math.min(0, -(viewportWidth - textW) / 2);
+          } else if (alignMode === 'right') {
+            mesh.position.x = Math.max(0, (viewportWidth - textW) / 2);
+          } else {
+            mesh.position.x = 0;
+          }
 
           renderFrame();
           startLoop();
@@ -1256,7 +1283,16 @@ export const MeshLettering = forwardRef<MeshLetteringHandle, MeshLetteringProps>
       >
         <span className="sr-only">{text}</span>
         {!isSupported && (
-          <div className="w-full h-full flex items-center justify-start">
+          <div
+            className={cn(
+              'w-full h-full flex items-center',
+              align === 'center'
+                ? 'justify-center'
+                : align === 'right'
+                ? 'justify-end'
+                : 'justify-start'
+            )}
+          >
             <span
               className="font-display font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#C87A54] via-[#F5F2EB] to-[#FFFFFF]"
               style={{
