@@ -1,154 +1,116 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
-import { checkIsAdmin } from '@/lib/data/api';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { isSupabaseConfigured } from '@/lib/supabase/client';
 
 export interface AuthContextType {
   user: any | null;
   isAdmin: boolean;
   isLoading: boolean;
   isSupabaseMode: boolean;
-  login: (email: string, password?: string) => Promise<{ error?: string }>;
+  serverConfigured: boolean | null;
+  loginWithKey: (key: string) => Promise<{ error?: string }>;
+  login: (keyOrEmail: string, password?: string) => Promise<{ error?: string }>;
   logout: () => Promise<void>;
+  refreshSession: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const DEMO_AUTH_KEY = 'kanholi_portfolio_demo_auth';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<any | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [serverConfigured, setServerConfigured] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    let mounted = true;
+  const checkSession = useCallback(async () => {
+    try {
+      const res = await fetch('/api/admin/verify', {
+        method: 'GET',
+        credentials: 'include',
+      });
 
-    async function initializeAuth() {
-      setIsLoading(true);
-
-      if (isSupabaseConfigured && supabase) {
-        try {
-          const { data: { session } } = await supabase.auth.getSession();
-          if (mounted && session?.user) {
-            setUser(session.user);
-            const adminCheck = await checkIsAdmin(session.user.id);
-            setIsAdmin(adminCheck);
-          } else if (mounted) {
-            setUser(null);
-            setIsAdmin(false);
-          }
-        } catch (err) {
-          console.warn('Auth initialization error:', err);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.authenticated) {
+          setIsAdmin(true);
+          setUser({ role: 'admin', email: 'admin' });
+        } else {
+          setIsAdmin(false);
+          setUser(null);
         }
-
-        // Subscribe to auth changes
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-          if (!mounted) return;
-          if (session?.user) {
-            setUser(session.user);
-            const adminCheck = await checkIsAdmin(session.user.id);
-            setIsAdmin(adminCheck);
-          } else {
-            setUser(null);
-            setIsAdmin(false);
-          }
-          setIsLoading(false);
-        });
-
-        if (mounted) setIsLoading(false);
-
-        return () => {
-          subscription.unsubscribe();
-        };
+        if (typeof data.configured === 'boolean') {
+          setServerConfigured(data.configured);
+        }
       } else {
-        // Fallback demo mode check
-        const savedDemoAuth = localStorage.getItem(DEMO_AUTH_KEY);
-        if (savedDemoAuth) {
-          try {
-            const parsed = JSON.parse(savedDemoAuth);
-            setUser(parsed);
-            setIsAdmin(true);
-          } catch {
-            localStorage.removeItem(DEMO_AUTH_KEY);
-          }
-        }
-        if (mounted) setIsLoading(false);
+        setIsAdmin(false);
+        setUser(null);
       }
+    } catch {
+      setIsAdmin(false);
+      setUser(null);
+    } finally {
+      setIsLoading(false);
     }
-
-    initializeAuth();
-
-    return () => {
-      mounted = false;
-    };
   }, []);
 
-  const login = async (email: string, password?: string): Promise<{ error?: string }> => {
+  useEffect(() => {
+    checkSession();
+  }, [checkSession]);
+
+  const loginWithKey = async (key: string): Promise<{ error?: string }> => {
     setIsLoading(true);
 
-    if (isSupabaseConfigured && supabase) {
-      if (!password) {
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ key }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
         setIsLoading(false);
-        return { error: 'Password is required for Supabase authentication.' };
+        return { error: data.error || 'Authentication failed' };
       }
 
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        if (error) {
-          setIsLoading(false);
-          return { error: error.message };
-        }
-
-        if (data.user) {
-          const adminCheck = await checkIsAdmin(data.user.id);
-          if (!adminCheck) {
-            await supabase.auth.signOut();
-            setIsLoading(false);
-            return { error: 'Your account is authenticated, but is not authorized in the admin_users table.' };
-          }
-
-          setUser(data.user);
-          setIsAdmin(true);
-          setIsLoading(false);
-          return {};
-        }
-      } catch (err: any) {
+      if (data.success) {
+        setIsAdmin(true);
+        setUser({ role: 'admin', email: 'admin' });
+        setServerConfigured(true);
         setIsLoading(false);
-        return { error: err.message || 'An unexpected authentication error occurred.' };
+        return {};
       }
+
+      setIsLoading(false);
+      return { error: 'Authentication failed' };
+    } catch (err: any) {
+      setIsLoading(false);
+      return { error: err.message || 'Network error connecting to authentication server' };
     }
-
-    // Local / Offline demo authentication:
-    // Allows testing admin panel when Supabase is not connected
-    const mockUser = {
-      id: 'demo-admin-id',
-      email: email || 'admin@kanholi.dev',
-      user_metadata: { name: 'Adithya S. Kanholi' },
-    };
-    localStorage.setItem(DEMO_AUTH_KEY, JSON.stringify(mockUser));
-    setUser(mockUser);
-    setIsAdmin(true);
-    setIsLoading(false);
-    return {};
   };
 
-  const logout = async () => {
+  const logout = async (): Promise<void> => {
     setIsLoading(true);
-    if (isSupabaseConfigured && supabase) {
-      try {
-        await supabase.auth.signOut();
-      } catch (err) {
-        console.warn('Signout error:', err);
-      }
+    try {
+      await fetch('/api/admin/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch {
+      // Ignore network error on logout
+    } finally {
+      setIsAdmin(false);
+      setUser(null);
+      setIsLoading(false);
     }
-    localStorage.removeItem(DEMO_AUTH_KEY);
-    setUser(null);
-    setIsAdmin(false);
-    setIsLoading(false);
+  };
+
+  // Backwards-compatible alias for any legacy forms
+  const login = async (keyOrEmail: string, _password?: string): Promise<{ error?: string }> => {
+    return loginWithKey(keyOrEmail);
   };
 
   return (
@@ -157,9 +119,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         user,
         isAdmin,
         isLoading,
-        isSupabaseMode: isSupabaseConfigured,
+        isSupabaseMode: Boolean(isSupabaseConfigured),
+        serverConfigured,
+        loginWithKey,
         login,
         logout,
+        refreshSession: checkSession,
       }}
     >
       {children}
@@ -174,4 +139,3 @@ export const useAuth = (): AuthContextType => {
   }
   return context;
 };
-

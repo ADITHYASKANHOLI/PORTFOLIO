@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, Outlet } from 'react-router-dom';
+import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { useAuth } from '@/lib/auth/AuthContext';
 import { LiquidActionLink } from '@/components/ui';
 import {
@@ -19,7 +19,13 @@ import {
 export const AdminLayout: React.FC = () => {
   const { user, logout, isSupabaseMode } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/admin/login', { replace: true });
+  };
 
   const navItems = [
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
@@ -130,7 +136,7 @@ export const AdminLayout: React.FC = () => {
           <div className="px-3.5 py-2 flex items-center justify-between font-mono text-xs text-[#9299A3]">
             <span className="truncate max-w-[120px]">{user?.email || 'admin'}</span>
             <button
-              onClick={() => logout()}
+              onClick={handleLogout}
               className="text-white hover:text-[#D7DCE2] p-1"
               title="Sign Out"
             >

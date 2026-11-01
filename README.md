@@ -100,6 +100,13 @@ PORTFOLIO/
 ├── .antideploy.json              # Antideploy deployment manifest
 ├── .env.example                  # Environment variable template with safe placeholders
 ├── .gitignore                    # Comprehensive Git exclusion rules
+├── api/                          # Vercel Serverless Functions
+│   ├── _lib/                     # Internal server utilities (crypto, sessions, rate limiter)
+│   │   └── auth.ts               # Timing-safe key verification & token management
+│   └── admin/                    # Serverless admin auth endpoints
+│       ├── login.ts              # POST /api/admin/login
+│       ├── verify.ts             # GET/POST /api/admin/verify
+│       └── logout.ts             # POST /api/admin/logout
 ├── components.json               # Shadcn / React Bits registry configuration
 ├── index.html                    # HTML5 entrypoint with CSP & Open Graph metadata
 ├── package.json                  # Dependencies, scripts, and Node engine constraints
@@ -108,7 +115,7 @@ PORTFOLIO/
 ├── tsconfig.json                 # TypeScript compiler configuration (ESNext, React JSX)
 ├── tsconfig.node.json            # Node-specific TypeScript rules
 ├── vercel.json                   # Vercel deployment, SPA rewrites, and security headers
-├── vite.config.ts                # Vite plugins, path aliases, Rollup chunking & headers
+├── vite.config.ts                # Vite plugins, dev auth middleware, Rollup chunking & headers
 ├── public/                       # Static public assets (SVGs, favicon, images)
 │   ├── _headers                  # Edge security headers definition
 │   ├── favicon.svg               # Vector monogram favicon
@@ -119,6 +126,8 @@ PORTFOLIO/
 │   ├── App.tsx                   # Top-level application shell & route definitions
 │   ├── index.css                 # Global CSS, Tailwind directives, font rules
 │   ├── types.ts                  # Shared TypeScript interfaces
+│   ├── server/                   # Local Vite server middleware
+│   │   └── authMiddleware.ts     # Connect middleware matching Vercel serverless auth
 │   ├── animations/               # Motion controllers, GSAP setup, and scroll engines
 │   │   ├── gsapSetup.ts          # GSAP & Lenis initialization
 │   │   ├── HorizontalProjectGallery.tsx # Horizontal desktop gallery
@@ -205,22 +214,35 @@ PORTFOLIO/
 
 | Variable Name | Required | Scope | Description |
 | :--- | :---: | :---: | :--- |
+| `ADMIN_KEY` | **Required for Admin** | **Server Only (Vercel)** | Secret access key for `/admin` portal login. Set in Vercel Project Settings > Environment Variables. **Never exposed to client bundles.** |
 | `VITE_SUPABASE_URL` | Optional | Client / Build | Supabase project HTTPS URL (`https://xyz.supabase.co`) |
 | `VITE_SUPABASE_ANON_KEY` | Optional | Client / Build | Supabase anonymous public key (safe for browser distribution) |
 
 > [!IMPORTANT]
+> - `ADMIN_KEY` is read strictly on the server by Vercel Serverless Functions (`/api/admin/*`) and Vite local middleware. It is never bundled into browser JavaScript or exposed as a `VITE_*` variable.
 > - Never store Supabase `service_role` secrets in client code or environment files.
 > - The application operates in zero-dependency demo mode if Supabase keys are not provided.
 
 ---
 
-## 9. Admin Portal & Authentication Architecture
+## 9. Admin Portal & Key Authentication Architecture
 
 - **Protected Path**: `/admin` (with sub-routes `/admin/projects`, `/admin/content`, `/admin/skills`, `/admin/media`).
-- **Route Guarding**: [`AdminGuard.tsx`](file:///Users/adithyaskanholi/Desktop/PORTFOLIO/src/components/admin/AdminGuard.tsx) verifies active sessions and queries the `admin_users` table for matching user IDs.
-- **Unauthenticated Handling**: Any visitor accessing `/admin` directly is redirected immediately to `/admin/login`. Unauthorized accounts see an `Access Unauthorized` gate.
+- **Server-Side Key Verification (`/api/admin/login`)**:
+  - The login screen (`/admin/login`) requires the secret **Admin Access Key**.
+  - Verified on the server using **constant-time SHA-256 buffer equality (`crypto.timingSafeEqual`)** to prevent timing attacks.
+  - Protected by an in-memory **IP rate limiter** (max 5 failed attempts per 5-minute window with `Retry-After` enforcement).
+- **Stateless Cryptographic Session**:
+  - Upon valid key verification, the server issues a cryptographically signed HMAC-SHA256 session token stored in an `HttpOnly`, `SameSite=Lax`, `Path=/`, `Secure` cookie (`admin_session`).
+  - Active sessions are verified on server-side `/api/admin/verify`.
+  - Logging out immediately expires and clears the cookie via `/api/admin/logout`.
+- **Zero Client Key Exposure**:
+  - `process.env.ADMIN_KEY` is exclusively consumed in server-side functions under `/api/` and Vite dev middleware. It is never prefixed with `VITE_` and never bundled into frontend assets.
+- **Route Guarding**: [`AdminGuard.tsx`](file:///Users/adithyaskanholi/Desktop/PORTFOLIO/src/components/admin/AdminGuard.tsx) checks server-verified admin authentication before rendering any administrative screens.
+- **Unauthenticated Handling**: Any visitor accessing `/admin` directly is redirected immediately to `/admin/login`.
 - **Public Privacy**: Public desktop navigation, mobile header actions, the mobile menu drawer, and the footer contain **no visible links or buttons** to the admin panel.
-- **One-Click Demo Admin**: When developing locally without Supabase, a mock admin session can be triggered on `/admin/login` to test forms and preview content modifications.
+- **Local Development Parity**:
+  - For local development with `npm run dev` or `npm run preview`, Vite dev middleware (`src/server/authMiddleware.ts`) implements the exact same endpoints (`/api/admin/login`, `/api/admin/verify`, `/api/admin/logout`) with `ADMIN_KEY` support.
 
 ---
 

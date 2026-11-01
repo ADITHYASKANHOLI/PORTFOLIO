@@ -1,10 +1,21 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import { createAuthMiddleware } from './src/server/authMiddleware'
+
+const devAuthPlugin = () => ({
+  name: 'dev-auth-server',
+  configureServer(server: any) {
+    server.middlewares.use(createAuthMiddleware());
+  },
+  configurePreviewServer(server: any) {
+    server.middlewares.use(createAuthMiddleware());
+  },
+});
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), devAuthPlugin()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
