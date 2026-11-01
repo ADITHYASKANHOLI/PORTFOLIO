@@ -1,0 +1,110 @@
+.circular-text {
+  position: relative;
+  margin: 0 auto;
+  border-radius: 50%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.circular-text__tilt,
+.circular-text__plane,
+.circular-text__ring {
+  position: absolute;
+  inset: 0;
+}
+
+.circular-text__tilt {
+  transform-style: preserve-3d;
+}
+
+.circular-text__plane {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.circular-text__letter {
+  position: absolute;
+  inset: 0;
+  display: inline-block;
+  white-space: pre;
+}
+
+.circular-text[data-settled] .circular-text__letter {
+  transition: transform 0.5s cubic-bezier(0, 0, 0, 1);
+}
+
+.circular-text__line {
+  position: absolute;
+  inset: 1.3em;
+  border: 0 solid currentColor;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.circular-text__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Back-To-Top Circular Text Styling */
+.back-to-top-circular-text {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  text-transform: uppercase;
+  user-select: none;
+  -webkit-user-select: none;
+  color: #D7DCE2;
+}
+
+.back-to-top-circular-text .circular-text__plane,
+.back-to-top-circular-text .circular-text__ring,
+.back-to-top-circular-text .circular-text__letter {
+  pointer-events: none;
+}
+
+.back-to-top-circular-text .circular-text__center {
+  pointer-events: auto;
+  z-index: 20;
+}
+
+.back-to-top-circular-text .circular-text__letter span {
+  display: inline-block;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #D7DCE2;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  text-shadow: 0 0.5px 1.5px rgba(0, 0, 0, 0.95);
+}
+
+.back-to-top-circular-text:hover .circular-text__letter span {
+  color: #FFFFFF;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+}
+
+.back-to-top-arrow-btn {
+  position: relative;
+}
+
+/* Mobile minimum 44px hit-target for accessibility without enlarging visible glass circle */
+@media (max-width: 767px) {
+  .back-to-top-arrow-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top-circular-text .circular-text__ring {
+    animation: none !important;
+    transform: none !important;
+  }
+}

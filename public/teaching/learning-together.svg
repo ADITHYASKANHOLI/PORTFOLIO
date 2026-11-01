@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#12151A"/>
+      <stop offset="100%" stop-color="#08090B"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D7DCE2" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#08090B" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid1" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#292D33" stroke-width="0.75" stroke-opacity="0.5"/>
+    </pattern>
+    <pattern id="dots1" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#9299A3" fill-opacity="0.2"/>
+    </pattern>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="100%" height="100%" fill="url(#bgGrad1)"/>
+  <rect width="100%" height="100%" fill="url(#grid1)"/>
+  <rect width="100%" height="100%" fill="url(#dots1)"/>
+  <circle cx="600" cy="400" r="380" fill="url(#glow1)"/>
+
+  <!-- Outer Technical Frame -->
+  <rect x="40" y="40" width="1120" height="720" rx="16" fill="none" stroke="#292D33" stroke-width="1.5"/>
+  <rect x="52" y="52" width="1096" height="696" rx="10" fill="none" stroke="#D7DCE2" stroke-width="0.5" stroke-opacity="0.25"/>
+
+  <!-- Top Technical Badges -->
+  <g font-family="monospace" font-size="11" fill="#9299A3" letter-spacing="2">
+    <text x="70" y="80">01 // PEDAGOGY // PEER_NETWORK</text>
+    <text x="960" y="80">LATENCY: 0.0ms [P2P]</text>
+  </g>
+  <line x1="70" y1="95" x2="1130" y2="95" stroke="#292D33" stroke-width="1"/>
+
+  <!-- Center Collaboration Geometric Constellation -->
+  <g transform="translate(600, 420)">
+    <!-- Central Ring System -->
+    <circle cx="0" cy="0" r="220" fill="none" stroke="#292D33" stroke-width="1" stroke-dasharray="4 8"/>
+    <circle cx="0" cy="0" r="160" fill="none" stroke="#D7DCE2" stroke-width="1" stroke-opacity="0.3"/>
+    <circle cx="0" cy="0" r="90" fill="#12151A" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.8"/>
+    
+    <!-- Central Node -->
+    <circle cx="0" cy="0" r="28" fill="#08090B" stroke="#D7DCE2" stroke-width="2"/>
+    <circle cx="0" cy="0" r="8" fill="#FFFFFF"/>
+
+    <!-- Interconnected Student Learning Nodes -->
+    <!-- Node Top Left -->
+    <g transform="translate(-180, -110)">
+      <line x1="0" y1="0" x2="180" y2="110" stroke="#D7DCE2" stroke-width="1.5" stroke-opacity="0.6"/>
+      <circle cx="0" cy="0" r="32" fill="#12151A" stroke="#292D33" stroke-width="2"/>
+      <circle cx="0" cy="0" r="18" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="5" fill="#FFFFFF"/>
+      <text x="-70" y="-42" font-family="monospace" font-size="10" fill="#D7DCE2">NODE_ALPHA: EXPLORE</text>
+    </g>
+
+    <!-- Node Top Right -->
+    <g transform="translate(190, -100)">
+      <line x1="0" y1="0" x2="-190" y2="100" stroke="#D7DCE2" stroke-width="1.5" stroke-opacity="0.6"/>
+      <circle cx="0" cy="0" r="28" fill="#12151A" stroke="#292D33" stroke-width="2"/>
+      <circle cx="0" cy="0" r="16" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="5" fill="#FFFFFF"/>
+      <text x="36" y="-36" font-family="monospace" font-size="10" fill="#D7DCE2">NODE_BETA: DISCUSS</text>
+    </g>
+
+    <!-- Node Bottom Left -->
+    <g transform="translate(-160, 140)">
+      <line x1="0" y1="0" x2="160" y2="-140" stroke="#D7DCE2" stroke-width="1.5" stroke-opacity="0.6"/>
+      <circle cx="0" cy="0" r="26" fill="#12151A" stroke="#292D33" stroke-width="2"/>
+      <circle cx="0" cy="0" r="14" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="4" fill="#FFFFFF"/>
+      <text x="-80" y="45" font-family="monospace" font-size="10" fill="#D7DCE2">NODE_GAMMA: BUILD</text>
+    </g>
+
+    <!-- Node Bottom Right -->
+    <g transform="translate(170, 130)">
+      <line x1="0" y1="0" x2="-170" y2="-130" stroke="#D7DCE2" stroke-width="1.5" stroke-opacity="0.6"/>
+      <circle cx="0" cy="0" r="30" fill="#12151A" stroke="#292D33" stroke-width="2"/>
+      <circle cx="0" cy="0" r="16" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="5" fill="#FFFFFF"/>
+      <text x="38" y="45" font-family="monospace" font-size="10" fill="#D7DCE2">NODE_DELTA: SHARE</text>
+    </g>
+
+    <!-- Perimeter Interconnect Beams -->
+    <path d="M -180 -110 L 190 -100 L 170 130 L -160 140 Z" fill="none" stroke="#D7DCE2" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="6 6"/>
+
+    <!-- Data Exchange Particles along lines -->
+    <circle cx="-90" cy="-55" r="3" fill="#FFFFFF"/>
+    <circle cx="95" cy="-50" r="3" fill="#FFFFFF"/>
+    <circle cx="-80" cy="70" r="3" fill="#FFFFFF"/>
+    <circle cx="85" cy="65" r="3" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Bottom Terminal Status Bar -->
+  <g transform="translate(70, 715)">
+    <text font-family="monospace" font-size="12" fill="#FFFFFF" font-weight="bold">SYNCHRONIZED LEARNING COLLECTIVE</text>
+    <text x="0" y="18" font-family="sans-serif" font-size="11" fill="#9299A3">Collective growth through continuous peer inquiry and horizontal discussion.</text>
+    <text x="820" y="10" font-family="monospace" font-size="11" fill="#D7DCE2">[MESH TOPOLOGY ACTIVE]</text>
+  </g>
+</svg>

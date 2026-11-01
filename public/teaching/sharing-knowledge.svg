@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#12151A"/>
+      <stop offset="100%" stop-color="#08090B"/>
+    </linearGradient>
+    <radialGradient id="glow3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D7DCE2" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#08090B" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid3" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#292D33" stroke-width="0.75" stroke-opacity="0.5"/>
+    </pattern>
+    <pattern id="dots3" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#9299A3" fill-opacity="0.2"/>
+    </pattern>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#bgGrad3)"/>
+  <rect width="100%" height="100%" fill="url(#grid3)"/>
+  <rect width="100%" height="100%" fill="url(#dots3)"/>
+  <circle cx="600" cy="400" r="380" fill="url(#glow3)"/>
+
+  <!-- Frame -->
+  <rect x="40" y="40" width="1120" height="720" rx="16" fill="none" stroke="#292D33" stroke-width="1.5"/>
+  <rect x="52" y="52" width="1096" height="696" rx="10" fill="none" stroke="#D7DCE2" stroke-width="0.5" stroke-opacity="0.25"/>
+
+  <!-- Top Badges -->
+  <g font-family="monospace" font-size="11" fill="#9299A3" letter-spacing="2">
+    <text x="70" y="80">03 // ARCHIVE // OPEN_DOCUMENTATION</text>
+    <text x="960" y="80">ACCESS: PUBLIC_DOMAIN</text>
+  </g>
+  <line x1="70" y1="95" x2="1130" y2="95" stroke="#292D33" stroke-width="1"/>
+
+  <!-- Two Column Technical Layout -->
+  <!-- Left: Code & Firmware Telemetry Pane -->
+  <g transform="translate(100, 150)">
+    <rect x="0" y="0" width="480" height="480" rx="10" fill="#12151A" stroke="#292D33" stroke-width="2"/>
+    <!-- Window Bar -->
+    <rect x="0" y="0" width="480" height="38" rx="10" fill="#08090B"/>
+    <circle cx="20" cy="19" r="5" fill="#292D33"/>
+    <circle cx="36" cy="19" r="5" fill="#292D33"/>
+    <circle cx="52" cy="19" r="5" fill="#292D33"/>
+    <text x="80" y="23" font-family="monospace" font-size="11" fill="#9299A3">embedded_firmware_guide.c</text>
+
+    <!-- Code Lines -->
+    <g font-family="monospace" font-size="12" fill="#D7DCE2" transform="translate(30, 70)">
+      <text y="0" fill="#9299A3">01 // Initialize non-blocking sensor task</text>
+      <text y="24"><tspan fill="#FFFFFF">void</tspan> vSensorPollTask(<tspan fill="#FFFFFF">void</tspan> *pvParameters) {</text>
+      <text y="48" fill="#9299A3">03   TickType_t xLastWakeTime = xTaskGetTickCount();</text>
+      <text y="72">04   <tspan fill="#FFFFFF">for</tspan> (;;) {</text>
+      <text y="96">05     i2c_read_telemetry(&amp;sensorData);</text>
+      <text y="120" fill="#FFFFFF">06     publish_mesh_packet(sensorData);</text>
+      <text y="144" fill="#9299A3">07     // Synchronize with student peers</text>
+      <text y="168">08     vTaskDelayUntil(&amp;xLastWakeTime, pdMS(50));</text>
+      <text y="192">09   }</text>
+      <text y="216">10 }</text>
+      
+      <!-- Highlight box -->
+      <rect x="-10" y="106" width="440" height="24" fill="#FFFFFF" fill-opacity="0.06" stroke="#FFFFFF" stroke-width="0.75" rx="3"/>
+      
+      <text y="260" fill="#9299A3">11 // Architecture: Modular FreeRTOS Queues</text>
+      <text y="284">12 <tspan fill="#FFFFFF">status_t</tspan> broadcast = send_queue(xPeerQueue);</text>
+      <text y="308">13 ASSERT(broadcast == STATUS_OK);</text>
+      <text y="340" fill="#9299A3">[COMPILED WITH ZERO WARNINGS - FLASH: 18% | RAM: 12%]</text>
+    </g>
+  </g>
+
+  <!-- Right: Architecture Flow & Knowledge Graph -->
+  <g transform="translate(620, 150)">
+    <rect x="0" y="0" width="480" height="480" rx="10" fill="#12151A" stroke="#292D33" stroke-width="2"/>
+    <!-- Window Bar -->
+    <rect x="0" y="0" width="480" height="38" rx="10" fill="#08090B"/>
+    <text x="25" y="23" font-family="monospace" font-size="11" fill="#9299A3">SYSTEM_ARCHITECTURE_MAP.SVG</text>
+
+    <!-- Block 1: Hardware Layer -->
+    <g transform="translate(40, 70)">
+      <rect x="0" y="0" width="400" height="70" rx="6" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+      <text x="20" y="32" font-family="monospace" font-size="12" fill="#FFFFFF" font-weight="bold">LAYER 01: SENSORS &amp; ACTUATORS</text>
+      <text x="20" y="52" font-family="sans-serif" font-size="11" fill="#9299A3">I2C / SPI / GPIO Hardware Interfacing</text>
+    </g>
+
+    <!-- Downward Vector -->
+    <line x1="240" y1="140" x2="240" y2="180" stroke="#FFFFFF" stroke-width="2"/>
+    <polygon points="240,185 235,175 245,175" fill="#FFFFFF"/>
+
+    <!-- Block 2: RTOS Kernel -->
+    <g transform="translate(40, 185)">
+      <rect x="0" y="0" width="400" height="70" rx="6" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+      <text x="20" y="32" font-family="monospace" font-size="12" fill="#FFFFFF" font-weight="bold">LAYER 02: REAL-TIME OPERATING SYSTEM</text>
+      <text x="20" y="52" font-family="sans-serif" font-size="11" fill="#9299A3">Deterministic Task Scheduling &amp; Inter-Task Queues</text>
+    </g>
+
+    <!-- Downward Vector -->
+    <line x1="240" y1="255" x2="240" y2="295" stroke="#FFFFFF" stroke-width="2"/>
+    <polygon points="240,300 235,290 245,290" fill="#FFFFFF"/>
+
+    <!-- Block 3: Peer Broadcast & Web Dashboard -->
+    <g transform="translate(40, 300)">
+      <rect x="0" y="0" width="400" height="70" rx="6" fill="#08090B" stroke="#FFFFFF" stroke-width="1.5"/>
+      <text x="20" y="32" font-family="monospace" font-size="12" fill="#FFFFFF" font-weight="bold">LAYER 03: OPEN TELEMETRY &amp; DASHBOARDS</text>
+      <text x="20" y="52" font-family="sans-serif" font-size="11" fill="#D7DCE2">WebSockets, Public Documentation &amp; Git Repos</text>
+    </g>
+
+    <!-- Git Branch Visual -->
+    <g transform="translate(40, 410)" stroke="#9299A3" stroke-width="1.5">
+      <line x1="20" y1="15" x2="380" y2="15"/>
+      <circle cx="40" cy="15" r="5" fill="#08090B" stroke="#FFFFFF"/>
+      <circle cx="160" cy="15" r="5" fill="#08090B" stroke="#D7DCE2"/>
+      <circle cx="280" cy="15" r="5" fill="#08090B" stroke="#D7DCE2"/>
+      <circle cx="360" cy="15" r="5" fill="#08090B" stroke="#FFFFFF"/>
+      <!-- Branch curve -->
+      <path d="M 160 15 Q 180 35 220 35 L 320 35" fill="none" stroke="#FFFFFF"/>
+      <circle cx="320" cy="35" r="4" fill="#FFFFFF"/>
+    </g>
+  </g>
+
+  <!-- Bottom Bar -->
+  <g transform="translate(70, 715)">
+    <text font-family="monospace" font-size="12" fill="#FFFFFF" font-weight="bold">OPEN-SOURCE KNOWLEDGE ARCHIVE</text>
+    <text x="0" y="18" font-family="sans-serif" font-size="11" fill="#9299A3">Demystifying low-level hardware and high-level software through structured open docs.</text>
+    <text x="820" y="10" font-family="monospace" font-size="11" fill="#D7DCE2">[DOCUMENTATION LIVE]</text>
+  </g>
+</svg>

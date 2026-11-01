@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-obsidian: #08090B;
+    --color-white: #FFFFFF;
+    --color-silver: #D7DCE2;
+    --color-steel: #9299A3;
+    --color-border: #292D33;
+    --color-surface: #12151A;
+    --color-soft-white: #F3F4F5;
+
+    /* Legacy mapping */
+    --color-forest: #08090B;
+    --color-paper: #FFFFFF;
+    --color-copper: #FFFFFF;
+    --color-sage: #9299A3;
+    --color-mutedInk: #9299A3;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-obsidian);
+    color: var(--color-white);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
+    background-color: #08090B;
+    color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #08090B;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #292D33;
+    border: 1px solid #12151A;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #D7DCE2;
+  }
+}
+
+/* Utilities for hiding scrollbar while keeping horizontal touch scrollable */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+

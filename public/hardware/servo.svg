@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E1116"/>
+      <stop offset="100%" stop-color="#08090B"/>
+    </linearGradient>
+    <pattern id="grid2" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#292D33" stroke-width="0.75" stroke-opacity="0.6"/>
+    </pattern>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#bg2)"/>
+  <rect width="100%" height="100%" fill="url(#grid2)"/>
+
+  <!-- Technical Schematic: Precision Micro-Servo -->
+  <g transform="translate(180, 220)">
+    <!-- Main Servo Body Casing -->
+    <rect x="50" y="160" width="340" height="400" rx="14" fill="#12151A" stroke="#292D33" stroke-width="2"/>
+    <rect x="62" y="172" width="316" height="376" rx="8" fill="none" stroke="#D7DCE2" stroke-width="0.5" stroke-opacity="0.4"/>
+
+    <!-- Mounting Flanges with Eyelets -->
+    <rect x="0" y="240" width="50" height="120" rx="6" fill="#171B22" stroke="#292D33" stroke-width="1.5"/>
+    <circle cx="25" cy="270" r="10" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+    <circle cx="25" cy="330" r="10" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+
+    <rect x="390" y="240" width="50" height="120" rx="6" fill="#171B22" stroke="#292D33" stroke-width="1.5"/>
+    <circle cx="415" cy="270" r="10" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+    <circle cx="415" cy="330" r="10" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+
+    <!-- Top Gear Turret & Output Shaft -->
+    <circle cx="150" cy="120" r="75" fill="#171B22" stroke="#D7DCE2" stroke-width="2"/>
+    <circle cx="150" cy="120" r="45" fill="#08090B" stroke="#9299A3" stroke-width="1.5"/>
+    <circle cx="150" cy="120" r="22" fill="#292D33" stroke="#FFFFFF" stroke-width="2"/>
+
+    <!-- Splined Servo Horn (Arm) -->
+    <path d="M 150 120 L 320 60 C 340 50 360 80 340 100 L 150 120 Z" fill="#292D33" stroke="#FFFFFF" stroke-width="1.5"/>
+    <circle cx="240" cy="85" r="5" fill="#FFFFFF"/>
+    <circle cx="280" cy="75" r="5" fill="#FFFFFF"/>
+    <circle cx="320" cy="68" r="5" fill="#FFFFFF"/>
+
+    <!-- Angular Sweep Arc -->
+    <path d="M 150 20 A 100 100 0 0 1 245 45" fill="none" stroke="#D7DCE2" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="210" y="25" fill="#FFFFFF" font-family="'IBM Plex Mono', monospace" font-size="12">180° SWEEP</text>
+
+    <!-- 3-Wire Ribbon Cable (GND, VCC, PWM) -->
+    <path d="M 120 560 L 120 660" stroke="#9299A3" stroke-width="4"/>
+    <path d="M 130 560 L 130 660" stroke="#FFFFFF" stroke-width="4"/>
+    <path d="M 140 560 L 140 660" stroke="#D7DCE2" stroke-width="4"/>
+
+    <!-- PWM Waveform Trace Indicator -->
+    <g transform="translate(170, 420)">
+      <rect x="0" y="0" width="180" height="90" rx="6" fill="#08090B" stroke="#292D33" stroke-width="1"/>
+      <path d="M 20 60 L 40 60 L 40 25 L 80 25 L 80 60 L 120 60 L 120 25 L 160 25" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="20" y="80" fill="#9299A3" font-family="'IBM Plex Mono', monospace" font-size="9">50Hz PWM • 1.5ms CENTER</text>
+    </g>
+  </g>
+
+  <!-- Technical Overlay Labels -->
+  <text x="50" y="80" fill="#D7DCE2" font-family="'IBM Plex Mono', monospace" font-size="14" letter-spacing="2">BENCH // 02</text>
+  <text x="50" y="105" fill="#9299A3" font-family="'Inter', sans-serif" font-size="12" letter-spacing="1">SERVO CONTROL & ELECTROMECHANICS</text>
+</svg>
+

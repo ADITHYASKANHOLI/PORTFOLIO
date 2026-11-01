@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#12151A"/>
+      <stop offset="100%" stop-color="#08090B"/>
+    </linearGradient>
+    <radialGradient id="glow4" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#08090B" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid4" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#292D33" stroke-width="0.75" stroke-opacity="0.5"/>
+    </pattern>
+    <pattern id="dots4" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#9299A3" fill-opacity="0.2"/>
+    </pattern>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#bgGrad4)"/>
+  <rect width="100%" height="100%" fill="url(#grid4)"/>
+  <rect width="100%" height="100%" fill="url(#dots4)"/>
+  <circle cx="600" cy="400" r="380" fill="url(#glow4)"/>
+
+  <!-- Frame -->
+  <rect x="40" y="40" width="1120" height="720" rx="16" fill="none" stroke="#292D33" stroke-width="1.5"/>
+  <rect x="52" y="52" width="1096" height="696" rx="10" fill="none" stroke="#D7DCE2" stroke-width="0.5" stroke-opacity="0.25"/>
+
+  <!-- Top Badges -->
+  <g font-family="monospace" font-size="11" fill="#9299A3" letter-spacing="2">
+    <text x="70" y="80">04 // COLLECTIVE // FOLE_CEV</text>
+    <text x="920" y="80">NETWORK: HORIZONTAL_P2P</text>
+  </g>
+  <line x1="70" y1="95" x2="1130" y2="95" stroke="#292D33" stroke-width="1"/>
+
+  <!-- Central FOLE Emblem & Community Geometry -->
+  <g transform="translate(600, 390)">
+    <!-- Outer Concentric Rings -->
+    <circle cx="0" cy="0" r="240" fill="none" stroke="#292D33" stroke-width="1" stroke-dasharray="6 6"/>
+    <circle cx="0" cy="0" r="180" fill="none" stroke="#D7DCE2" stroke-width="1" stroke-opacity="0.3"/>
+    <circle cx="0" cy="0" r="120" fill="#12151A" stroke="#FFFFFF" stroke-width="1.5"/>
+
+    <!-- FOLE Geometric Core Crest -->
+    <!-- Diamond & Cross -->
+    <polygon points="0,-90 90,0 0,90 -90,0" fill="#08090B" stroke="#D7DCE2" stroke-width="2"/>
+    <polygon points="0,-50 50,0 0,50 -50,0" fill="#12151A" stroke="#FFFFFF" stroke-width="1"/>
+
+    <!-- Center FOLE Typography -->
+    <text x="0" y="8" font-family="monospace" font-size="28" fill="#FFFFFF" text-anchor="middle" font-weight="900" letter-spacing="4">FOLE</text>
+    <text x="0" y="28" font-family="sans-serif" font-size="9" fill="#9299A3" text-anchor="middle" letter-spacing="2">FREE OPEN LEARNING</text>
+
+    <!-- Radiating Student Community Nodes (8 directions) -->
+    <!-- North -->
+    <g transform="translate(0, -180)">
+      <circle cx="0" cy="0" r="18" fill="#12151A" stroke="#FFFFFF" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="5" fill="#FFFFFF"/>
+      <text y="-25" font-family="monospace" font-size="10" fill="#D7DCE2" text-anchor="middle">PEER_CIRCUIT</text>
+    </g>
+    <!-- South -->
+    <g transform="translate(0, 180)">
+      <circle cx="0" cy="0" r="18" fill="#12151A" stroke="#FFFFFF" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="5" fill="#FFFFFF"/>
+      <text y="35" font-family="monospace" font-size="10" fill="#D7DCE2" text-anchor="middle">OPEN_HARDWARE</text>
+    </g>
+    <!-- East -->
+    <g transform="translate(240, 0)">
+      <circle cx="0" cy="0" r="22" fill="#12151A" stroke="#FFFFFF" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="6" fill="#FFFFFF"/>
+      <text x="32" y="5" font-family="monospace" font-size="10" fill="#D7DCE2">FIRMWARE_LABS</text>
+    </g>
+    <!-- West -->
+    <g transform="translate(-240, 0)">
+      <circle cx="0" cy="0" r="22" fill="#12151A" stroke="#FFFFFF" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="6" fill="#FFFFFF"/>
+      <text x="-32" y="5" font-family="monospace" font-size="10" fill="#D7DCE2" text-anchor="end">CODE_SPRINTS</text>
+    </g>
+
+    <!-- Diagonals -->
+    <circle cx="-130" cy="-130" r="10" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+    <circle cx="130" cy="-130" r="10" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+    <circle cx="-130" cy="130" r="10" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+    <circle cx="130" cy="130" r="10" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+
+    <!-- Connecting Rays -->
+    <line x1="0" y1="-90" x2="0" y2="-162" stroke="#FFFFFF" stroke-width="1.5"/>
+    <line x1="0" y1="90" x2="0" y2="162" stroke="#FFFFFF" stroke-width="1.5"/>
+    <line x1="-90" y1="0" x2="-218" y2="0" stroke="#FFFFFF" stroke-width="1.5"/>
+    <line x1="90" y1="0" x2="218" y2="0" stroke="#FFFFFF" stroke-width="1.5"/>
+  </g>
+
+  <!-- Left Bottom Callout Box -->
+  <g transform="translate(100, 560)">
+    <rect x="0" y="0" width="340" height="90" rx="8" fill="#12151A" stroke="#292D33" stroke-width="1.5"/>
+    <text x="20" y="28" font-family="monospace" font-size="11" fill="#FFFFFF" font-weight="bold">COLLEGE OF ENGINEERING VADAKARA</text>
+    <text x="20" y="50" font-family="sans-serif" font-size="11" fill="#9299A3">Independent horizontal learning movement</text>
+    <text x="20" y="70" font-family="monospace" font-size="10" fill="#D7DCE2">STATUS: ACTIVELY COLLABORATING</text>
+  </g>
+
+  <!-- Right Bottom Callout Box -->
+  <g transform="translate(760, 560)">
+    <rect x="0" y="0" width="340" height="90" rx="8" fill="#12151A" stroke="#292D33" stroke-width="1.5"/>
+    <text x="20" y="28" font-family="monospace" font-size="11" fill="#FFFFFF" font-weight="bold">DEMOCRATIZING TECHNICAL MASTERY</text>
+    <text x="20" y="50" font-family="sans-serif" font-size="11" fill="#9299A3">No gatekeeping, no prerequisites, pure building</text>
+    <text x="20" y="70" font-family="monospace" font-size="10" fill="#D7DCE2">FOUNDED BY ADITHYA S. KANHOLI</text>
+  </g>
+
+  <!-- Bottom Bar -->
+  <g transform="translate(70, 715)">
+    <text font-family="monospace" font-size="12" fill="#FFFFFF" font-weight="bold">FOLE STUDENT INITIATIVE</text>
+    <text x="0" y="18" font-family="sans-serif" font-size="11" fill="#9299A3">Peer-to-peer technical learning community empowering the next generation of engineers.</text>
+    <text x="840" y="10" font-family="monospace" font-size="11" fill="#D7DCE2">[COMMUNITY ONLINE]</text>
+  </g>
+</svg>

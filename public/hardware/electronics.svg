@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E1116"/>
+      <stop offset="100%" stop-color="#08090B"/>
+    </linearGradient>
+    <pattern id="grid5" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#292D33" stroke-width="0.75" stroke-opacity="0.6"/>
+    </pattern>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#bg5)"/>
+  <rect width="100%" height="100%" fill="url(#grid5)"/>
+
+  <!-- Technical Schematic: Workbench Prototyping Breadboard & Circuits -->
+  <g transform="translate(130, 200)">
+    <!-- Breadboard Outer Shell -->
+    <rect x="0" y="60" width="540" height="480" rx="12" fill="#12151A" stroke="#292D33" stroke-width="2"/>
+    <rect x="10" y="70" width="520" height="460" rx="8" fill="none" stroke="#D7DCE2" stroke-width="0.5" stroke-opacity="0.4"/>
+
+    <!-- Dual Power Rails (Red VCC & Blue GND indicators) -->
+    <line x1="30" y1="95" x2="510" y2="95" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="8 6"/>
+    <line x1="30" y1="115" x2="510" y2="115" stroke="#9299A3" stroke-width="1.5" stroke-dasharray="8 6"/>
+
+    <!-- Tie Point Matrix Dots -->
+    <g fill="#292D33">
+      <circle cx="60" cy="180" r="3"/><circle cx="90" cy="180" r="3"/><circle cx="120" cy="180" r="3"/><circle cx="150" cy="180" r="3"/><circle cx="180" cy="180" r="3"/>
+      <circle cx="210" cy="180" r="3"/><circle cx="240" cy="180" r="3"/><circle cx="270" cy="180" r="3"/><circle cx="300" cy="180" r="3"/><circle cx="330" cy="180" r="3"/>
+      <circle cx="360" cy="180" r="3"/><circle cx="390" cy="180" r="3"/><circle cx="420" cy="180" r="3"/><circle cx="450" cy="180" r="3"/><circle cx="480" cy="180" r="3"/>
+
+      <circle cx="60" cy="210" r="3"/><circle cx="90" cy="210" r="3"/><circle cx="120" cy="210" r="3"/><circle cx="150" cy="210" r="3"/><circle cx="180" cy="210" r="3"/>
+      <circle cx="210" cy="210" r="3"/><circle cx="240" cy="210" r="3"/><circle cx="270" cy="210" r="3"/><circle cx="300" cy="210" r="3"/><circle cx="330" cy="210" r="3"/>
+      <circle cx="360" cy="210" r="3"/><circle cx="390" cy="210" r="3"/><circle cx="420" cy="210" r="3"/><circle cx="450" cy="210" r="3"/><circle cx="480" cy="210" r="3"/>
+    </g>
+
+    <!-- Discrete Passive Components (Resistors & Capacitors) -->
+    <!-- Resistor -->
+    <g transform="translate(120, 260)">
+      <line x1="0" y1="20" x2="30" y2="20" stroke="#FFFFFF" stroke-width="2"/>
+      <path d="M 30 20 L 40 5 L 55 35 L 70 5 L 85 35 L 100 5 L 110 20" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+      <line x1="110" y1="20" x2="140" y2="20" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="70" y="55" fill="#D7DCE2" font-family="'IBM Plex Mono', monospace" font-size="10" text-anchor="middle">10kΩ</text>
+    </g>
+
+    <!-- Capacitor -->
+    <g transform="translate(320, 260)">
+      <line x1="0" y1="20" x2="40" y2="20" stroke="#FFFFFF" stroke-width="2"/>
+      <line x1="40" y1="0" x2="40" y2="40" stroke="#FFFFFF" stroke-width="2"/>
+      <line x1="55" y1="0" x2="55" y2="40" stroke="#FFFFFF" stroke-width="2"/>
+      <line x1="55" y1="20" x2="95" y2="20" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="47" y="55" fill="#D7DCE2" font-family="'IBM Plex Mono', monospace" font-size="10" text-anchor="middle">100nF</text>
+    </g>
+
+    <!-- DIP IC Package -->
+    <rect x="170" y="360" width="200" height="90" rx="4" fill="#08090B" stroke="#D7DCE2" stroke-width="1.5"/>
+    <text x="270" y="410" fill="#FFFFFF" font-family="'IBM Plex Mono', monospace" font-size="14" font-weight="bold" text-anchor="middle">LINEAR REGULATOR</text>
+    <text x="270" y="435" fill="#9299A3" font-family="'IBM Plex Mono', monospace" font-size="10" text-anchor="middle">3.3V LDO RAIL</text>
+
+    <!-- Jumper Wire Links -->
+    <path d="M 60 95 C 100 130 140 180 180 260" fill="none" stroke="#D7DCE2" stroke-width="2"/>
+    <path d="M 370 405 C 430 380 470 280 480 115" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+  </g>
+
+  <!-- Technical Overlay Labels -->
+  <text x="50" y="80" fill="#D7DCE2" font-family="'IBM Plex Mono', monospace" font-size="14" letter-spacing="2">BENCH // 05</text>
+  <text x="50" y="105" fill="#9299A3" font-family="'Inter', sans-serif" font-size="12" letter-spacing="1">CIRCUIT ARCHITECTURES & VOLTAGE REGULATION</text>
+</svg>
+
