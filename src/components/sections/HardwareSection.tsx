@@ -3,6 +3,7 @@ import { HardwareContent, HardwarePanel } from '@/types';
 import AccordionGallery, { AccordionGalleryItem } from '@/components/AccordionGallery';
 import { INITIAL_SITE_CONTENT } from '@/lib/data/initialData';
 import { Cpu, Radio, Layers } from 'lucide-react';
+import TechText from '@/components/TechText';
 
 interface HardwareSectionProps {
   content: HardwareContent;
@@ -51,8 +52,23 @@ export const HardwareSection: React.FC<HardwareSectionProps> = ({ content }) => 
             <span>Interactive Exhibition</span>
           </div>
 
-          <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white">
-            {headline}
+          <h2 className="relative w-full max-w-xl">
+            <span className="sr-only">{headline}</span>
+            <div className="w-full h-14 sm:h-20">
+              <TechText
+                text={headline}
+                fontSize={56}
+                fontWeight={700}
+                fontFamily='"Space Grotesk", sans-serif'
+                color="#FFFFFF"
+                accentColor="#D7DCE2"
+                align="left"
+                reach={130}
+                labels={false}
+                clickKick={true}
+                className="w-full h-full"
+              />
+            </div>
           </h2>
 
           <p className="font-sans text-[#9299A3] text-base sm:text-lg mt-3 font-light leading-relaxed">

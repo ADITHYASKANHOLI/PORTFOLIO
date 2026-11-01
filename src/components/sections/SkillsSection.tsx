@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Skill } from '@/types';
 import ScrollStack, { ScrollStackItem } from '@/components/ScrollStack';
+import TechText from '@/components/TechText';
 import {
   Code2,
   Database,
@@ -122,8 +123,23 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
             <span>Interactive Engineering Stack</span>
           </div>
 
-          <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white">
-            What I Work With
+          <h2 className="relative w-full max-w-xl">
+            <span className="sr-only">What I Work With</span>
+            <div className="w-full h-14 sm:h-20">
+              <TechText
+                text="What I Work With"
+                fontSize={56}
+                fontWeight={700}
+                fontFamily='"Space Grotesk", sans-serif'
+                color="#FFFFFF"
+                accentColor="#D7DCE2"
+                align="left"
+                reach={130}
+                labels={false}
+                clickKick={true}
+                className="w-full h-full"
+              />
+            </div>
           </h2>
 
           <p className="font-sans text-[#9299A3] text-base sm:text-lg mt-3 font-light leading-relaxed">

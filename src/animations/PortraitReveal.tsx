@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { gsap, prefersReducedMotion } from './gsapSetup';
 import { PortraitContent } from '@/types';
 import { Camera, Sparkles } from 'lucide-react';
+import TechText from '@/components/TechText';
 
 interface PortraitRevealProps {
   content: PortraitContent;
@@ -124,8 +125,23 @@ export const PortraitReveal: React.FC<PortraitRevealProps> = ({ content }) => {
               <span>Personal Archive</span>
             </div>
 
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-tight">
-              {content.heading}
+            <h2 className="relative w-full max-w-xl">
+              <span className="sr-only">{content.heading}</span>
+              <div className="w-full h-14 sm:h-20">
+                <TechText
+                  text={content.heading || "Electrical Engineering & Systems"}
+                  fontSize={46}
+                  fontWeight={700}
+                  fontFamily='"Space Grotesk", sans-serif'
+                  color="#FFFFFF"
+                  accentColor="#D7DCE2"
+                  align="left"
+                  reach={120}
+                  labels={false}
+                  clickKick={true}
+                  className="w-full h-full"
+                />
+              </div>
             </h2>
 
             <p className="font-sans text-xl md:text-2xl text-[#D7DCE2] font-light leading-relaxed">

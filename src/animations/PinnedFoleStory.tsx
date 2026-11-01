@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger, prefersReducedMotion } from './gsapSetup';
 import { FoleContent } from '@/types';
 import { BookOpen, Users, Cpu, Share2 } from 'lucide-react';
+import TechText from '@/components/TechText';
 
 interface PinnedFoleStoryProps {
   content: FoleContent;
@@ -75,8 +76,23 @@ export const PinnedFoleStory: React.FC<PinnedFoleStoryProps> = ({ content }) => 
             <span className="font-mono text-xs text-[#9299A3]">CEV Chapter</span>
           </div>
 
-          <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
-            {content.title}
+          <h2 className="relative w-full max-w-2xl">
+            <span className="sr-only">{content.title}</span>
+            <div className="w-full h-14 sm:h-20">
+              <TechText
+                text={content.title || "Free Open Learning & Education"}
+                fontSize={52}
+                fontWeight={700}
+                fontFamily='"Space Grotesk", sans-serif'
+                color="#FFFFFF"
+                accentColor="#D7DCE2"
+                align="left"
+                reach={130}
+                labels={false}
+                clickKick={true}
+                className="w-full h-full"
+              />
+            </div>
           </h2>
 
           <p className="font-sans text-lg sm:text-xl text-[#9299A3] font-light mt-3 max-w-2xl">

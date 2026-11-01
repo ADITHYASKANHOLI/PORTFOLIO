@@ -4,6 +4,7 @@ import MorphSlider, { MorphSliderRef, MorphSliderItem } from '@/components/Morph
 import { INITIAL_SITE_CONTENT } from '@/lib/data/initialData';
 import { LiquidActionButton, LiquidGlassPanel } from '@/components/ui';
 import { Users, ChevronLeft, ChevronRight, Sparkles, BookOpen, Wrench, Share2, ExternalLink } from 'lucide-react';
+import TechText from '@/components/TechText';
 
 interface TeachingSectionProps {
   content: TeachingContent;
@@ -88,8 +89,23 @@ export const TeachingSection: React.FC<TeachingSectionProps> = ({ content }) => 
             <span>04 // Pedagogical Practice &amp; Community</span>
           </div>
 
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-tight mb-4">
-            {headline}
+          <h2 className="relative w-full max-w-2xl mb-4">
+            <span className="sr-only">{headline}</span>
+            <div className="w-full h-14 sm:h-20">
+              <TechText
+                text={headline}
+                fontSize={48}
+                fontWeight={700}
+                fontFamily='"Space Grotesk", sans-serif'
+                color="#FFFFFF"
+                accentColor="#D7DCE2"
+                align="left"
+                reach={130}
+                labels={false}
+                clickKick={true}
+                className="w-full h-full"
+              />
+            </div>
           </h2>
 
           <p className="font-sans text-base sm:text-lg text-[#9299A3] font-light leading-relaxed">

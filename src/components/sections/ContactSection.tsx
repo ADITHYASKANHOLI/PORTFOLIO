@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ContactContent, SocialLink } from '@/types';
 import { Mail, ArrowUpRight, Github, Linkedin, Instagram, Copy, Check, Send } from 'lucide-react';
 import { LiquidActionButton, LiquidActionLink, LiquidGlassPanel } from '@/components/ui';
+import TechText from '@/components/TechText';
 
 interface ContactSectionProps {
   content: ContactContent;
@@ -44,8 +45,23 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ content, socials
           
           {/* Main Inquiry Column (7 cols) */}
           <div className="lg:col-span-7 space-y-8">
-            <h2 className="font-display text-4xl sm:text-6xl font-bold tracking-tight text-white leading-tight">
-              {content.headline || "Let’s start a conversation."}
+            <h2 className="relative w-full max-w-xl">
+              <span className="sr-only">{content.headline || "Let's start a conversation."}</span>
+              <div className="w-full h-14 sm:h-20">
+                <TechText
+                  text={content.headline || "Let's start a conversation."}
+                  fontSize={52}
+                  fontWeight={700}
+                  fontFamily='"Space Grotesk", sans-serif'
+                  color="#FFFFFF"
+                  accentColor="#D7DCE2"
+                  align="left"
+                  reach={130}
+                  labels={false}
+                  clickKick={true}
+                  className="w-full h-full"
+                />
+              </div>
             </h2>
 
             <p className="font-sans text-[#9299A3] text-lg sm:text-xl font-light leading-relaxed max-w-xl">

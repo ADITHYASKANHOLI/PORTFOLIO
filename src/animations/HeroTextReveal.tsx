@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap, prefersReducedMotion } from './gsapSetup';
+import TechText from '@/components/TechText';
 
 interface HeroTextRevealProps {
   line1: string;
@@ -49,22 +50,57 @@ export const HeroTextReveal: React.FC<HeroTextRevealProps> = ({
 
   return (
     <div ref={containerRef} className={`space-y-4 ${className}`}>
-      {/* Accessible Title */}
+      {/* Line 1 with TechText & Accessible Heading */}
       <div className="overflow-hidden">
         <h1
           ref={line1Ref}
-          className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-tightDisplay"
+          className="relative w-full max-w-4xl"
         >
-          {line1}
+          <span className="sr-only">{line1}</span>
+          <div className="w-full h-16 sm:h-20 md:h-24 lg:h-28">
+            <TechText
+              text={line1}
+              fontSize={86}
+              fontWeight={700}
+              fontFamily='"Space Grotesk", sans-serif'
+              color="#FFFFFF"
+              accentColor="#D7DCE2"
+              align="left"
+              reach={150}
+              softness={0.75}
+              labels={true}
+              clickKick={true}
+              selection={true}
+              className="w-full h-full"
+            />
+          </div>
         </h1>
       </div>
 
+      {/* Line 2 with TechText & Accessible Heading */}
       <div className="overflow-hidden">
         <h1
           ref={line2Ref}
-          className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-silver leading-tightDisplay"
+          className="relative w-full max-w-4xl"
         >
-          {line2}
+          <span className="sr-only">{line2}</span>
+          <div className="w-full h-16 sm:h-20 md:h-24 lg:h-28">
+            <TechText
+              text={line2}
+              fontSize={86}
+              fontWeight={700}
+              fontFamily='"Space Grotesk", sans-serif'
+              color="#D7DCE2"
+              accentColor="#FFFFFF"
+              align="left"
+              reach={150}
+              softness={0.75}
+              labels={true}
+              clickKick={true}
+              selection={true}
+              className="w-full h-full"
+            />
+          </div>
         </h1>
       </div>
 

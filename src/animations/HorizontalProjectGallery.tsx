@@ -5,6 +5,7 @@ import { Project } from '@/types';
 import { ArrowUpRight, Github, ExternalLink, Filter, FolderGit2 } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import { LiquidActionButton, LiquidActionLink } from '@/components/ui';
+import TechText from '@/components/TechText';
 
 interface HorizontalProjectGalleryProps {
   projects: Project[];
@@ -78,8 +79,23 @@ export const HorizontalProjectGallery: React.FC<HorizontalProjectGalleryProps> =
               <FolderGit2 className="w-3.5 h-3.5 text-white" />
               <span>Project Archive</span>
             </div>
-            <h2 className="font-display text-3xl sm:text-5xl font-bold tracking-tight text-white">
-              Selected Engineering Builds
+            <h2 className="relative w-full max-w-2xl">
+              <span className="sr-only">Selected Engineering Builds</span>
+              <div className="w-full h-14 sm:h-20">
+                <TechText
+                  text="Selected Engineering Builds"
+                  fontSize={52}
+                  fontWeight={700}
+                  fontFamily='"Space Grotesk", sans-serif'
+                  color="#FFFFFF"
+                  accentColor="#D7DCE2"
+                  align="left"
+                  reach={130}
+                  labels={false}
+                  clickKick={true}
+                  className="w-full h-full"
+                />
+              </div>
             </h2>
             <p className="font-sans text-[#9299A3] text-base mt-2 max-w-xl">
               Physical microcontrollers, firmware, and backend software developed to solve real challenges.
