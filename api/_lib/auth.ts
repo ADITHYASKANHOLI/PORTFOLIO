@@ -154,3 +154,4 @@ export function buildClearCookieHeader(isSecure = false): string {
   }
   return flags.join('; ');
 }
+

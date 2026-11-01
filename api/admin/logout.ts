@@ -18,3 +18,4 @@ export default async function handler(req: any, res: any) {
     message: 'Logged out successfully',
   });
 }
+
